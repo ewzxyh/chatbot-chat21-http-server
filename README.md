@@ -134,9 +134,46 @@ Where :
 
 
 ## Docker deploy
+```
 
 build -t chat21/chat21-http-server:latest .
 
 docker run  chat21/chat21-server:latest
 
 docker push chat21/chat21-http-server:latest
+```
+
+
+
+
+
+## Send a message (Synchronous version)
+
+== Send a Message ==
+
+```
+curl --location --request POST 'http://localhost:8004/api/APP_ID/messages/sync?mqtt_endpoint=ws://XYZ:15675/ws&chatapi_endpoint=http://XYZ:8004/api' \
+--header 'Authorization: JWT-TOKEN' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+ "sender_fullname": "SENDER FULLNAME",
+ "recipient_id": "RECIPIENT-UUID",
+ "recipient_fullname": "RECIPIENT FULLNAME",
+ "text": "hello",
+ "type": "text",
+ "channel_type": "direct"
+}'
+
+```
+
+Example: 
+```
+curl --location --request POST 'http://localhost:8004/api/tilechat/messages/sync?mqtt_endpoint=ws://localhost:15675/ws&chatapi_endpoint=http://localhost:8004/api' --header 'Authorization: [REDACTED_JWT]' --header 'Content-Type: application/json' --data-raw '{
+ "sender_fullname": "SENDER FULLNAME",
+ "recipient_id": "group-1744216774431",
+ "recipient_fullname": "RECIPIENT FULLNAME",
+ "text": "hello",
+ "type": "text",
+ "channel_type": "group"
+}'
+```
